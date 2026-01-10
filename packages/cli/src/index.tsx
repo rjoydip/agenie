@@ -1,0 +1,563 @@
+#!/usr/bin/env bun
+/**
+ * CLI - Multi-phase Agent Interface
+ *
+ * Uses the agent with Understand, Plan, and Task Loop phases.
+ */
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { Box, Text, Static, useApp, useInput, render, useStdout } from "ink";
+
+import { Intro } from "@orbit/ui/Intro";
+import { Input } from "@orbit/ui/Input";
+import { AnswerBox } from "@orbit/ui/AnswerBox";
+import {
+  ProviderSelector,
+  ModelSelector,
+  getModelsForProvider,
+  getDefaultModelForProvider,
+} from "@orbit/ui/ModelSelector";
+import { ApiKeyConfirm, ApiKeyInput } from "@orbit/ui/ApiKeyPrompt";
+import { QueueDisplay } from "@orbit/ui/QueueDisplay";
+import { StatusMessage } from "@orbit/ui/StatusMessage";
+import { CurrentTurnView } from "@orbit/ui/AgentProgressView";
+import { TaskListView } from "@orbit/ui/TaskListView";
+import type { Task } from "@orbit/agent/state";
+
+import { useQueryQueue } from "@orbit/agent/hooks/useQueryQueue";
+import {
+  useAgentExecution,
+  ToolError,
+} from "@orbit/agent/hooks/useAgentExecution";
+
+import { getSetting, setSetting } from "@orbit/utils/config";
+import {
+  getApiKeyNameForProvider,
+  getProviderDisplayName,
+  checkApiKeyExistsForProvider,
+  saveApiKeyForProvider,
+} from "@orbit/utils/env";
+import { MessageHistory } from "@orbit/utils/message-history";
+
+import { DEFAULT_PROVIDER } from "@orbit/agent/models/llm";
+import { colors } from "@orbit/ui/theme";
+import type { AppState } from "./types";
+
+// ============================================================================
+// Completed Turn Type and View
+// ============================================================================
+
+interface CompletedTurn {
+  id: string;
+  query: string;
+  tasks: Task[];
+  answer: string;
+}
+
+// ============================================================================
+// Debug Section Component
+// ============================================================================
+
+const DebugSection = React.memo(function DebugSection({
+  errors,
+}: {
+  errors: ToolError[];
+}) {
+  if (errors.length === 0) return null;
+
+  const formatArgs = (args: Record<string, unknown>): string => {
+    const entries = Object.entries(args);
+    if (entries.length === 0) return "(no args)";
+    return entries
+      .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+      .join(", ");
+  };
+
+  return (
+    <Box
+      flexDirection="column"
+      marginTop={1}
+      paddingX={1}
+      borderStyle="single"
+      borderColor="red"
+    >
+      <Text color="red" bold>
+        Debug: Tool Errors
+      </Text>
+      {errors.map((err, i) => (
+        <Box key={i} flexDirection="column" marginTop={i > 0 ? 1 : 0}>
+          <Text color="yellow">Tool: {err.toolName}</Text>
+          <Text color="cyan">Args: {formatArgs(err.args)}</Text>
+          <Text color="gray">Error: {err.error}</Text>
+        </Box>
+      ))}
+    </Box>
+  );
+});
+
+const CompletedTurnView = React.memo(function CompletedTurnView({
+  turn,
+}: {
+  turn: CompletedTurn;
+}) {
+  // Mark all tasks as completed for display
+  const completedTasks = turn.tasks.map((t) => ({
+    ...t,
+    status: "completed" as const,
+  }));
+
+  return (
+    <Box flexDirection="column" marginBottom={1}>
+      {/* Query */}
+      <Box marginBottom={1}>
+        <Text color={colors.primary} bold>
+          {"> "}
+        </Text>
+        <Text>{turn.query}</Text>
+      </Box>
+
+      {/* Task list (completed) */}
+      {completedTasks.length > 0 && (
+        <Box flexDirection="column" marginTop={1}>
+          <Box marginLeft={2} flexDirection="column">
+            <TaskListView tasks={completedTasks} />
+          </Box>
+        </Box>
+      )}
+
+      {/* Answer */}
+      <Box marginTop={1}>
+        <AnswerBox text={turn.answer} />
+      </Box>
+    </Box>
+  );
+});
+
+// ============================================================================
+// Main CLI Component
+// ============================================================================
+
+export function CLI() {
+  const { exit } = useApp();
+  const { stdout } = useStdout();
+
+  const [state, setState] = useState<AppState>("idle");
+  const [provider, setProvider] = useState(() =>
+    getSetting("provider", DEFAULT_PROVIDER),
+  );
+  const [model, setModel] = useState(() => {
+    const savedModel = getSetting("modelId", null) as string | null;
+    const savedProvider = getSetting("provider", DEFAULT_PROVIDER) as string;
+    if (savedModel) {
+      return savedModel;
+    }
+    // Default to first model for the provider
+    return getDefaultModelForProvider(savedProvider) || "gpt-5.2";
+  });
+  const [pendingProvider, setPendingProvider] = useState<string | null>(null);
+  const [pendingModels, setPendingModels] = useState<string[]>([]);
+  const [history, setHistory] = useState<CompletedTurn[]>([]);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [dimensions, setDimensions] = useState({
+    width: stdout?.columns || 120,
+    height: stdout?.rows || 40,
+  });
+
+  // Store the current turn's tasks when answer starts streaming
+  const currentTasksRef = useRef<Task[]>([]);
+  const messageHistoryRef = useRef<MessageHistory>(new MessageHistory(model));
+
+  const {
+    queue: queryQueue,
+    enqueue,
+    shift: shiftQueue,
+    clear: clearQueue,
+  } = useQueryQueue();
+
+  const {
+    currentTurn,
+    answerStream,
+    toolErrors,
+    processQuery,
+    handleAnswerComplete: baseHandleAnswerComplete,
+    cancelExecution,
+  } = useAgentExecution({
+    model,
+    messageHistory: messageHistoryRef.current,
+  });
+
+  // Listen for terminal resize
+  useEffect(() => {
+    const updateDimensions = () => {
+      setDimensions({
+        width: stdout?.columns || 120,
+        height: stdout?.rows || 40,
+      });
+    };
+
+    stdout?.on("resize", updateDimensions);
+    updateDimensions(); // Initial update
+
+    return () => {
+      stdout?.off("resize", updateDimensions);
+    };
+  }, [stdout]);
+
+  const termWidth = dimensions.width;
+
+  // Capture tasks when answer stream starts
+  useEffect(() => {
+    if (answerStream && currentTurn) {
+      currentTasksRef.current = [...currentTurn.state.tasks];
+    }
+  }, [answerStream, currentTurn]);
+
+  /**
+   * Handles the completed answer and moves current turn to history
+   */
+  const handleAnswerComplete = useCallback(
+    (answer: string) => {
+      if (currentTurn) {
+        setHistory((h) => [
+          ...h,
+          {
+            id: currentTurn.id,
+            query: currentTurn.query,
+            tasks: currentTasksRef.current,
+            answer,
+          },
+        ]);
+      }
+      baseHandleAnswerComplete(answer);
+      currentTasksRef.current = [];
+    },
+    [currentTurn, baseHandleAnswerComplete],
+  );
+
+  /**
+   * Wraps processQuery to handle state transitions and errors
+   */
+  const executeQuery = useCallback(
+    async (query: string) => {
+      setState("running");
+      try {
+        await processQuery(query);
+      } catch (e) {
+        if ((e as Error).message?.includes("interrupted")) {
+          setStatusMessage("Operation cancelled.");
+        } else {
+          setStatusMessage(`Error: ${e}`);
+        }
+      } finally {
+        setState("idle");
+      }
+    },
+    [processQuery],
+  );
+
+  /**
+   * Process next queued query when state becomes idle
+   */
+  useEffect(() => {
+    if (state === "idle" && queryQueue.length > 0) {
+      const nextQuery = queryQueue[0];
+      shiftQueue();
+      executeQuery(nextQuery);
+    }
+  }, [state, queryQueue, shiftQueue, executeQuery]);
+
+  const handleSubmit = useCallback(
+    (query: string) => {
+      // Handle special commands even while running
+      if (query.toLowerCase() === "exit" || query.toLowerCase() === "quit") {
+        console.log(`Goodbye, Have a great day!`);
+        setTimeout(() => exit(), 0);
+        return;
+      }
+
+      if (query === "/model") {
+        setState("provider_select");
+        return;
+      }
+
+      // Queue the query if already running
+      if (state === "running") {
+        enqueue(query);
+        return;
+      }
+
+      // Process immediately if idle
+      executeQuery(query);
+    },
+    [state, exit, enqueue, executeQuery],
+  );
+
+  /**
+   * Called when user selects a provider from the selector
+   */
+  const handleProviderSelect = useCallback(
+    async (providerId: string | null) => {
+      if (providerId) {
+        setPendingProvider(providerId);
+        setPendingModels(getModelsForProvider(providerId));
+
+        setState("model_select");
+      } else {
+        setState("idle");
+      }
+    },
+    [],
+  );
+
+  /**
+   * Called when user selects a model from the selector
+   */
+  const handleModelSelect = useCallback(
+    (modelId: string | null) => {
+      if (!modelId || !pendingProvider) {
+        // User cancelled - go back to provider select
+        setPendingProvider(null);
+        setPendingModels([]);
+        setState("provider_select");
+        return;
+      }
+
+      // For Ollama, skip API key flow entirely
+      if (pendingProvider === "ollama") {
+        const fullModelId = `ollama:${modelId}`;
+        setProvider(pendingProvider);
+        setModel(fullModelId);
+        setSetting("provider", pendingProvider);
+        setSetting("modelId", fullModelId);
+        messageHistoryRef.current.setModel(fullModelId);
+        setPendingProvider(null);
+        setPendingModels([]);
+        setState("idle");
+        return;
+      }
+
+      // For cloud providers, check API key
+      if (checkApiKeyExistsForProvider(pendingProvider)) {
+        // API key exists, complete the switch
+        setProvider(pendingProvider);
+        setModel(modelId);
+        setSetting("provider", pendingProvider);
+        setSetting("modelId", modelId);
+        messageHistoryRef.current.setModel(modelId);
+        setPendingProvider(null);
+        setPendingModels([]);
+        setState("idle");
+      } else {
+        // Need to get API key
+        // Store the selected model temporarily
+        setPendingModels([modelId]); // Reuse to store selected model
+        setState("api_key_confirm");
+      }
+    },
+    [pendingProvider],
+  );
+
+  /**
+   * Called when user confirms/declines setting API key
+   */
+  const handleApiKeyConfirm = useCallback(
+    (wantsToSet: boolean) => {
+      if (wantsToSet) {
+        setState("api_key_input");
+      } else {
+        // Check if existing key is available
+        if (pendingProvider && checkApiKeyExistsForProvider(pendingProvider)) {
+          // Use existing key, complete the provider switch
+          const selectedModel = pendingModels[0]; // Model was stored here
+          setProvider(pendingProvider);
+          setModel(selectedModel);
+          setSetting("provider", pendingProvider);
+          setSetting("modelId", selectedModel);
+          messageHistoryRef.current.setModel(selectedModel);
+        } else {
+          setStatusMessage(
+            `Cannot use ${pendingProvider ? getProviderDisplayName(pendingProvider) : "provider"} without an API key.`,
+          );
+        }
+        setPendingProvider(null);
+        setPendingModels([]);
+        setState("idle");
+      }
+    },
+    [pendingProvider, pendingModels],
+  );
+
+  /**
+   * Called when user submits API key
+   */
+  const handleApiKeySubmit = useCallback(
+    (apiKey: string | null) => {
+      const selectedModel = pendingModels[0]; // Model was stored here
+
+      if (apiKey && pendingProvider) {
+        const saved = saveApiKeyForProvider(pendingProvider, apiKey);
+        if (saved) {
+          setProvider(pendingProvider);
+          setModel(selectedModel);
+          setSetting("provider", pendingProvider);
+          setSetting("modelId", selectedModel);
+          messageHistoryRef.current.setModel(selectedModel);
+        } else {
+          setStatusMessage("Failed to save API key.");
+        }
+      } else if (
+        !apiKey &&
+        pendingProvider &&
+        checkApiKeyExistsForProvider(pendingProvider)
+      ) {
+        // Cancelled but existing key available
+        setProvider(pendingProvider);
+        setModel(selectedModel);
+        setSetting("provider", pendingProvider);
+        setSetting("modelId", selectedModel);
+        messageHistoryRef.current.setModel(selectedModel);
+      } else {
+        setStatusMessage("API key not set. Provider unchanged.");
+      }
+      setPendingProvider(null);
+      setPendingModels([]);
+      setState("idle");
+    },
+    [pendingProvider, pendingModels],
+  );
+
+  useInput((input, key) => {
+    if (key.ctrl && input === "c") {
+      if (state === "running") {
+        setState("idle");
+        cancelExecution();
+        clearQueue();
+        setStatusMessage(
+          "Operation cancelled. You can ask a new question or press Ctrl+C again to quit.",
+        );
+      } else if (
+        state === "provider_select" ||
+        state === "model_select" ||
+        state === "api_key_confirm" ||
+        state === "api_key_input"
+      ) {
+        setPendingProvider(null);
+        setPendingModels([]);
+        setState("idle");
+        setStatusMessage("Cancelled.");
+      } else {
+        console.log(`Goodbye, Have a great day!`);
+        setTimeout(() => exit(), 0);
+      }
+    }
+  });
+
+  if (state === "provider_select") {
+    return (
+      <Box flexDirection="column">
+        <ProviderSelector provider={provider} onSelect={handleProviderSelect} />
+      </Box>
+    );
+  }
+
+  if (state === "model_select" && pendingProvider) {
+    return (
+      <Box flexDirection="column">
+        <ModelSelector
+          providerId={pendingProvider}
+          models={pendingModels}
+          currentModel={provider === pendingProvider ? model : undefined}
+          onSelect={handleModelSelect}
+        />
+      </Box>
+    );
+  }
+
+  if (state === "api_key_confirm" && pendingProvider) {
+    return (
+      <Box flexDirection="column">
+        <ApiKeyConfirm
+          providerName={getProviderDisplayName(pendingProvider)}
+          onConfirm={handleApiKeyConfirm}
+        />
+      </Box>
+    );
+  }
+
+  if (state === "api_key_input" && pendingProvider) {
+    const apiKeyName = getApiKeyNameForProvider(pendingProvider) || "";
+    return (
+      <Box flexDirection="column">
+        <ApiKeyInput
+          providerName={getProviderDisplayName(pendingProvider)}
+          apiKeyName={apiKeyName}
+          onSubmit={handleApiKeySubmit}
+        />
+      </Box>
+    );
+  }
+
+  // Combine intro and history into a single static stream
+  const staticItems: Array<
+    { type: "intro" } | { type: "turn"; turn: CompletedTurn }
+  > = [
+    { type: "intro" },
+    ...history.map((h) => ({ type: "turn" as const, turn: h })),
+  ];
+
+  return (
+    <Box flexDirection="column" width={termWidth}>
+      {/* Intro + completed history - each item rendered once, never re-rendered */}
+      <Static items={staticItems}>
+        {(item) =>
+          item.type === "intro" ? (
+            <Intro
+              key="intro"
+              provider={provider}
+              model={model}
+              terminal_width={termWidth}
+            />
+          ) : (
+            <CompletedTurnView key={item.turn.id} turn={item.turn} />
+          )
+        }
+      </Static>
+
+      {/* Render current in-progress conversation */}
+      {currentTurn && (
+        <Box flexDirection="column" marginBottom={1}>
+          {/* Query + phase progress + task list */}
+          <CurrentTurnView
+            query={currentTurn.query}
+            state={currentTurn.state}
+          />
+
+          {/* Streaming answer (appears below progress) */}
+          {answerStream && (
+            <Box marginTop={1}>
+              <AnswerBox
+                stream={answerStream}
+                onComplete={handleAnswerComplete}
+              />
+            </Box>
+          )}
+        </Box>
+      )}
+
+      {/* Debug: Tool Errors */}
+      <DebugSection errors={toolErrors} />
+
+      {/* Queued queries */}
+      <QueueDisplay queries={queryQueue} />
+
+      {/* Status message */}
+      <StatusMessage message={statusMessage} />
+
+      {/* Input bar - always visible and interactive */}
+      <Box>
+        <Input onSubmit={handleSubmit} />
+      </Box>
+    </Box>
+  );
+}
+
+render(<CLI />);

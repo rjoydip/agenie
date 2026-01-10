@@ -1,0 +1,22 @@
+{
+  "name": "@orbit/mcp",
+  "version": "0.0.0",
+  "description": "Orbit MCP (Model Control Program)",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    "./*": "./src/*.ts",
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts"
+  },
+  "dependencies": {
+    "@orbit/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:dev",
+    "typescript": "catalog:dev"
+  }
+}

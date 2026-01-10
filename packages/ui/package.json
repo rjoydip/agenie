@@ -1,0 +1,40 @@
+{
+  "name": "@orbit/ui",
+  "version": "0.0.0",
+  "description": "Orbit UI components",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    "./*": "./src/*.tsx",
+    ".": "./src/index.ts",
+    "./theme": "./src/theme.ts",
+    "./AgentProgressView": "./src/AgentProgressView.tsx",
+    "./AnswerBox": "./src/AnswerBox.tsx",
+    "./ApiKeyPrompt": "./src/ApiKeyPrompt.tsx",
+    "./Input": "./src/Input.tsx",
+    "./Intro": "./src/Intro.tsx",
+    "./ModelSelector": "./src/ModelSelector.tsx",
+    "./QueueDisplay": "./src/QueueDisplay.tsx",
+    "./StatusMessage": "./src/StatusMessage.tsx",
+    "./TaskListView": "./src/TaskListView.tsx"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts"
+  },
+  "dependencies": {
+    "@orbit/agent": "workspace:*",
+    "@orbit/utils": "workspace:*",
+    "ink": "catalog:",
+    "ink-big-text": "2.0.0",
+    "ink-spinner": "^5.0.0",
+    "ink-text-input": "^6.0.0",
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:dev",
+    "@types/react": "catalog:dev",
+    "react-devtools-core": "7.0.1",
+    "typescript": "catalog:dev"
+  }
+}

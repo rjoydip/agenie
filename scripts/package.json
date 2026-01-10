@@ -1,0 +1,19 @@
+{
+  "name": "orbit-scripts",
+  "version": "0.0.0",
+  "description": "Orbit scripts",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts",
+    "./build-cli": "./build-cli.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.tsx",
+    "dev": "bun --watch run src/index.tsx"
+  },
+  "devDependencies": {
+    "@orbit/utils": "workspace:*",
+    "@types/bun": "catalog:dev",
+    "typescript": "catalog:dev"
+  }
+}

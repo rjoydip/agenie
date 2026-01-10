@@ -1,0 +1,29 @@
+{
+  "name": "@orbit/utils",
+  "version": "0.0.0",
+  "description": "Orbit utility",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    "./*": "./src/*.ts",
+    ".": "./src/index.ts",
+    "./config": "./src/config.ts",
+    "./context": "./src/context.ts",
+    "./env": "./src/env.ts",
+    "./global": "./src/global.ts",
+    "./log": "./src/log.ts",
+    "./message-history": "./src/message-history.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts"
+  },
+  "dependencies": {
+    "@orbit/agent": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:dev",
+    "typescript": "catalog:dev"
+  }
+}

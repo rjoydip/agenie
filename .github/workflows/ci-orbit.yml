@@ -1,0 +1,22 @@
+name: CI Orbit
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check-orbit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/orbit
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Run Check
+        run: bun run check

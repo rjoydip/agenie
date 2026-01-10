@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "bun",
+      "request": "attach",
+      "name": "orbit (attach)",
+      "program": "${workspaceFolder}/src/index.tsx",
+      "cwd": "${workspaceFolder}/src/index.tsx"
+    }
+  ]
+}

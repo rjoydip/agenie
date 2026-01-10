@@ -1,0 +1,60 @@
+{
+  "name": "@orbit/agent",
+  "version": "0.0.0",
+  "description": "Orbit - An autonomous AI agent",
+  "type": "module",
+  "main": "src/index.tsx",
+  "exports": {
+    "./*": "./src/*.ts",
+    ".": "./src/index.ts",
+    "./orchestrator": "./src/orchestrator.ts",
+    "./prompts": "./src/prompts.ts",
+    "./schemas": "./src/schemas.ts",
+    "./state": "./src/state.ts",
+    "./task-executor": "./src/task-executor.ts",
+    "./tool-executor": "./src/tool-executor.ts",
+    "./hooks/*": "./hooks/*.ts",
+    "./hooks": "./hooks/index.ts",
+    "./hooks/useAgentExecution": "./hooks/useAgentExecution.ts",
+    "./hooks/useQueryQueue": "./hooks/useQueryQueue.ts",
+    "./models/*": "./models/*.ts",
+    "./models": "./models/index.ts",
+    "./models/llm": "./models/llm.ts",
+    "./models/ollama": "./models/ollama.ts",
+    "./phases/*": "./phases/*.ts",
+    "./phases": "./phases/index.ts",
+    "./phases/answer": "./phases/answer.ts",
+    "./phases/execute": "./phases/execute.ts",
+    "./phases/plan": "./phases/plan.ts",
+    "./phases/reflect": "./phases/reflect.ts",
+    "./phases/understand": "./phases/understand.ts",
+    "./tools/*": "./tools/*.ts",
+    "./tools": "./tools/index.ts",
+    "./tools/search": "./tools/search.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch run src/index.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "3.0.9",
+    "@ai-sdk/google": "3.0.6",
+    "@ai-sdk/openai": "3.0.7",
+    "@langchain/anthropic": "^1.3.6",
+    "@langchain/community": "^1.1.2",
+    "@langchain/core": "^1.1.11",
+    "@langchain/google-genai": "^2.1.6",
+    "@langchain/ollama": "^1.1.0",
+    "@langchain/openai": "^1.2.1",
+    "@orbit/cli": "workspace:*",
+    "@orbit/ui": "workspace:*",
+    "@orbit/utils": "workspace:*",
+    "ai": "6.0.27",
+    "react": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:dev",
+    "@types/react": "catalog:dev"
+  }
+}
