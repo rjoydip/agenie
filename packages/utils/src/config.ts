@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { dirname } from "path";
 
-const namespace = "Orbit".toLowerCase();
+const namespace = "Agenie".toLowerCase();
 const SETTINGS_FILE = `.${namespace}/settings.json`;
 export const CONTEXT_DIR = `.${namespace}/context`;
 export const DATA_DIR = `.${namespace}/data`;

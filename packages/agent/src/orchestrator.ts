@@ -1,5 +1,5 @@
-import { ToolContextManager } from "@orbit/utils/context";
-import { MessageHistory } from "@orbit/utils/message-history";
+import { ToolContextManager } from "@agenie/utils/context";
+import { MessageHistory } from "@agenie/utils/message-history";
 import { toolSet } from "../tools/index";
 import { UnderstandPhase } from "../phases/understand";
 import { PlanPhase } from "../phases/plan";
@@ -15,7 +15,7 @@ import type {
   TaskResult,
   ReflectionResult,
 } from "./state";
-import { CONTEXT_DIR } from "@orbit/utils/config";
+import { CONTEXT_DIR } from "@agenie/utils/config";
 
 // ============================================================================
 // Constants

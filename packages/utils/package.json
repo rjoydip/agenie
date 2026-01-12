@@ -1,7 +1,7 @@
 {
-  "name": "@orbit/utils",
+  "name": "@agenie/utils",
   "version": "0.0.0",
-  "description": "Orbit utility",
+  "description": "Utility functions for Agenie",
   "type": "module",
   "main": "src/index.ts",
   "exports": {
@@ -19,7 +19,7 @@
     "dev": "bun --watch run src/index.ts"
   },
   "dependencies": {
-    "@orbit/agent": "workspace:*",
+    "@agenie/agent": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

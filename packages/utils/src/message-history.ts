@@ -1,9 +1,9 @@
 import { createHash } from "crypto";
-import { callLlm, DEFAULT_MODEL } from "@orbit/agent/models/llm";
+import { callLlm, DEFAULT_MODEL } from "@agenie/agent/models/llm";
 import {
   MESSAGE_SUMMARY_SYSTEM_PROMPT,
   MESSAGE_SELECTION_SYSTEM_PROMPT,
-} from "@orbit/agent/prompts";
+} from "@agenie/agent/prompts";
 import { z } from "zod";
 
 /**

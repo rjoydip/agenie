@@ -1,7 +1,7 @@
 {
-  "name": "orbit",
+  "name": "agenie",
   "version": "0.0.0",
-  "description": "Orbit - An autonomous AI agent CLI powered by LangChain",
+  "description": "Agenie - An autonomous AI agent template built with AI-SDK",
   "workspaces": {
     "packages": [
       "packages/*",

@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Text } from "ink";
 import InkSpinner from "ink-spinner";
-import { colors } from "@/theme";
+import { colors } from "@/cli/theme";
 import { TaskListView } from "./TaskListView";
-import type { Phase, Task } from "@orbit/agent/state";
+import type { Phase, Task } from "@agenie/agent/state";
 
 // ============================================================================
 // Types

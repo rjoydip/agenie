@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef } from "react";
 import { Agent, AgentCallbacks } from "@/orchestrator";
-import { MessageHistory } from "@orbit/utils/message-history";
-import { generateId } from "@orbit/utils";
+import { MessageHistory } from "@agenie/utils/message-history";
+import { generateId } from "@agenie/utils";
 import type { Phase, TaskStatus, Plan, ToolCalls } from "@/state";
-import type { AgentProgressState } from "@orbit/ui/AgentProgressView";
+import type { AgentProgressState } from "@agenie/ui/cli/AgentProgressView";
 
 // ============================================================================
 // Types

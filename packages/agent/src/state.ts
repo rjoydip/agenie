@@ -1,4 +1,4 @@
-import type { MessageHistory } from "@orbit/utils/message-history";
+import type { MessageHistory } from "@agenie/utils/message-history";
 
 // ============================================================================
 // Phase Types

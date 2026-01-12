@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { Box, Text } from "ink";
 import TextInput from "ink-text-input";
 
-import { colors } from "@/theme";
+import { colors } from "@/cli/theme";
 
 interface InputProps {
   onSubmit: (value: string) => void;

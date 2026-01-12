@@ -1,11 +1,11 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { createHash } from "crypto";
-import { callLlm, DEFAULT_MODEL } from "@orbit/agent/models/llm";
-import { CONTEXT_SELECTION_SYSTEM_PROMPT } from "@orbit/agent/prompts";
-import { SelectedContextsSchema } from "@orbit/agent/schemas";
+import { callLlm, DEFAULT_MODEL } from "@agenie/agent/models/llm";
+import { CONTEXT_SELECTION_SYSTEM_PROMPT } from "@agenie/agent/prompts";
+import { SelectedContextsSchema } from "@agenie/agent/schemas";
 import { CONTEXT_DIR } from "./config";
-import type { ToolSummary } from "@orbit/agent/schemas";
+import type { ToolSummary } from "@agenie/agent/schemas";
 
 interface ContextPointer {
   filepath: string;

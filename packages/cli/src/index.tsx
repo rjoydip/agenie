@@ -7,40 +7,40 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Box, Text, Static, useApp, useInput, render, useStdout } from "ink";
 
-import { Intro } from "@orbit/ui/Intro";
-import { Input } from "@orbit/ui/Input";
-import { AnswerBox } from "@orbit/ui/AnswerBox";
-import {
-  ProviderSelector,
-  ModelSelector,
-  getModelsForProvider,
-  getDefaultModelForProvider,
-} from "@orbit/ui/ModelSelector";
-import { ApiKeyConfirm, ApiKeyInput } from "@orbit/ui/ApiKeyPrompt";
-import { QueueDisplay } from "@orbit/ui/QueueDisplay";
-import { StatusMessage } from "@orbit/ui/StatusMessage";
-import { CurrentTurnView } from "@orbit/ui/AgentProgressView";
-import { TaskListView } from "@orbit/ui/TaskListView";
-import type { Task } from "@orbit/agent/state";
+import { Intro } from "@agenie/ui/cli/Intro";
+import { Input } from "@agenie/ui/cli/Input";
+import { AnswerBox } from "@agenie/ui/cli/AnswerBox";
+import { ProviderSelector, ModelSelector } from "@agenie/ui/cli/ModelSelector";
+import { ApiKeyConfirm, ApiKeyInput } from "@agenie/ui/cli/ApiKeyPrompt";
+import { QueueDisplay } from "@agenie/ui/cli/QueueDisplay";
+import { StatusMessage } from "@agenie/ui/cli/StatusMessage";
+import { CurrentTurnView } from "@agenie/ui/cli/AgentProgressView";
+import { TaskListView } from "@agenie/ui/cli/TaskListView";
+import type { Task } from "@agenie/agent/state";
 
-import { useQueryQueue } from "@orbit/agent/hooks/useQueryQueue";
+import { useQueryQueue } from "@agenie/agent/hooks/useQueryQueue";
 import {
   useAgentExecution,
   ToolError,
-} from "@orbit/agent/hooks/useAgentExecution";
+} from "@agenie/agent/hooks/useAgentExecution";
 
-import { getSetting, setSetting } from "@orbit/utils/config";
+import { getSetting, setSetting } from "@agenie/utils/config";
 import {
   getApiKeyNameForProvider,
   getProviderDisplayName,
   checkApiKeyExistsForProvider,
   saveApiKeyForProvider,
-} from "@orbit/utils/env";
-import { MessageHistory } from "@orbit/utils/message-history";
+} from "@agenie/utils/env";
+import { MessageHistory } from "@agenie/utils/message-history";
 
-import { DEFAULT_PROVIDER } from "@orbit/agent/models/llm";
-import { colors } from "@orbit/ui/theme";
+import { DEFAULT_PROVIDER } from "@agenie/agent/models/llm";
+import { colors } from "@agenie/ui/cli/theme";
 import type { AppState } from "./types";
+import {
+  getDefaultModelForProvider,
+  getModelsForProvider,
+  getProviders,
+} from "@agenie/agent/models";
 
 // ============================================================================
 // Completed Turn Type and View
@@ -78,9 +78,9 @@ const DebugSection = React.memo(function DebugSection({
       marginTop={1}
       paddingX={1}
       borderStyle="single"
-      borderColor="red"
+      borderColor={colors.error}
     >
-      <Text color="red" bold>
+      <Text color={colors.error} bold>
         Debug: Tool Errors
       </Text>
       {errors.map((err, i) => (
@@ -139,6 +139,7 @@ const CompletedTurnView = React.memo(function CompletedTurnView({
 export function CLI() {
   const { exit } = useApp();
   const { stdout } = useStdout();
+  const PROVIDERS = getProviders();
 
   const [state, setState] = useState<AppState>("idle");
   const [provider, setProvider] = useState(() =>
@@ -151,7 +152,7 @@ export function CLI() {
       return savedModel;
     }
     // Default to first model for the provider
-    return getDefaultModelForProvider(savedProvider) || "gpt-5.2";
+    return getDefaultModelForProvider(savedProvider, PROVIDERS) || "gpt-5.2";
   });
   const [pendingProvider, setPendingProvider] = useState<string | null>(null);
   const [pendingModels, setPendingModels] = useState<string[]>([]);
@@ -298,7 +299,7 @@ export function CLI() {
     async (providerId: string | null) => {
       if (providerId) {
         setPendingProvider(providerId);
-        setPendingModels(getModelsForProvider(providerId));
+        setPendingModels(getModelsForProvider(providerId, PROVIDERS));
 
         setState("model_select");
       } else {
@@ -453,7 +454,11 @@ export function CLI() {
 
   if (state === "provider_select") {
     return (
-      <Box flexDirection="column">
+      <Box
+        flexDirection="column"
+        borderStyle="round"
+        borderColor={colors.muted}
+      >
         <ProviderSelector provider={provider} onSelect={handleProviderSelect} />
       </Box>
     );

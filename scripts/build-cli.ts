@@ -1,11 +1,11 @@
 import { $ } from "bun";
-import { Log } from "@orbit/utils/log";
+import { Log } from "@agenie/utils/log";
 
 const log = Log.create({ service: "build-cli" });
 
 log.info("Building CLI Executable ...");
 
-const outFileName = "orbit-cli";
+const outFileName = "agenie-cli";
 const buildFile = "packages/cli/src/index.tsx";
 const platform = process.platform;
 const arch = process.arch;

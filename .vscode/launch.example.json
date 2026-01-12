@@ -4,7 +4,7 @@
     {
       "type": "bun",
       "request": "attach",
-      "name": "orbit (attach)",
+      "name": "agenie (attach)",
       "program": "${workspaceFolder}/src/index.tsx",
       "cwd": "${workspaceFolder}/src/index.tsx"
     }

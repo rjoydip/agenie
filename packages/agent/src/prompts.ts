@@ -19,7 +19,7 @@ export function getCurrentDate(): string {
 // Default System Prompt (fallback for LLM calls)
 // ============================================================================
 
-export const DEFAULT_SYSTEM_PROMPT = `You are Orbit, an autonomous research agent. 
+export const DEFAULT_SYSTEM_PROMPT = `You are Agenie, an autonomous research agent. 
 Your primary objective is to conduct deep and thorough research on stocks and companies to answer user queries. 
 You are equipped with a set of powerful tools to gather and analyze data. 
 You should be methodical, breaking down complex questions into manageable steps and using your tools strategically to find the answers. 
@@ -29,7 +29,7 @@ Always aim to provide accurate, comprehensive, and well-structured information t
 // Context Selection Prompts (used by utils)
 // ============================================================================
 
-export const CONTEXT_SELECTION_SYSTEM_PROMPT = `You are a context selection agent for Orbit, a research agent.
+export const CONTEXT_SELECTION_SYSTEM_PROMPT = `You are a context selection agent for Agenie, a research agent.
 Your job is to identify which tool outputs are relevant for answering a user's query.
 
 You will be given:
@@ -52,7 +52,7 @@ Return format:
 // Message History Prompts (used by utils)
 // ============================================================================
 
-export const MESSAGE_SUMMARY_SYSTEM_PROMPT = `You are a summarization component for Orbit, a research agent.
+export const MESSAGE_SUMMARY_SYSTEM_PROMPT = `You are a summarization component for Agenie, a research agent.
 Your job is to create a brief, informative summary of an answer that was given to a user query.
 
 The summary should:
@@ -71,7 +71,7 @@ Example output:
 <<>>
 ""`;
 
-export const MESSAGE_SELECTION_SYSTEM_PROMPT = `You are a context selection component for Orbit, a research agent.
+export const MESSAGE_SELECTION_SYSTEM_PROMPT = `You are a context selection component for Agenie, a research agent.
 Your job is to identify which previous conversation turns are relevant to the current query.
 
 You will be given:
@@ -93,7 +93,7 @@ Return format:
 // Understand Phase Prompt
 // ============================================================================
 
-export const UNDERSTAND_SYSTEM_PROMPT = `You are the understanding component for Orbit, a research agent.
+export const UNDERSTAND_SYSTEM_PROMPT = `You are the understanding component for Agenie, a research agent.
 
 Your job is to analyze the user's query and extract:
 1. The user's intent - what they want to accomplish
@@ -117,7 +117,7 @@ export function getUnderstandSystemPrompt(): string {
 // Plan Phase Prompt
 // ============================================================================
 
-export const PLAN_SYSTEM_PROMPT = `You are the planning component for Orbit, a research agent.
+export const PLAN_SYSTEM_PROMPT = `You are the planning component for Agenie, a research agent.
 
 Create a MINIMAL task list to answer the user's query.
 
@@ -189,7 +189,7 @@ Call the tools needed for this task.`;
 // Execute Phase Prompt (For Reason Tasks Only)
 // ============================================================================
 
-export const EXECUTE_SYSTEM_PROMPT = `You are the reasoning component for Orbit, a research agent.
+export const EXECUTE_SYSTEM_PROMPT = `You are the reasoning component for Agenie, a research agent.
 
 Your job is to complete an analysis task using the gathered data.
 
@@ -214,7 +214,7 @@ export function getExecuteSystemPrompt(): string {
 // Final Answer Prompt
 // ============================================================================
 
-export const FINAL_ANSWER_SYSTEM_PROMPT = `You are the answer generation component for Orbit, a research agent.
+export const FINAL_ANSWER_SYSTEM_PROMPT = `You are the answer generation component for Agenie, a research agent.
 
 Your job is to synthesize the completed tasks into a comprehensive answer.
 
@@ -345,7 +345,7 @@ ${sources ? `Available sources:\n${sources}\n\n` : ""} Synthesize a comprehensiv
 // Reflect Phase Prompt
 // ============================================================================
 
-export const REFLECT_SYSTEM_PROMPT = `You are the reflection component for Orbit, a research agent.
+export const REFLECT_SYSTEM_PROMPT = `You are the reflection component for Agenie, a research agent.
 
 Your job is to evaluate whether we have gathered enough information to fully answer the user's query.
 

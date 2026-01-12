@@ -13,9 +13,9 @@ const log = Log.create({ service: "global" });
 
 export namespace Global {
   export const Path = {
-    // Allow override via ORBIT_TEST_HOME for test isolation
+    // Allow override via AGENIE_TEST_HOME for test isolation
     get home() {
-      return process.env.ORBIT_TEST_HOME || os.homedir();
+      return process.env.AGENIE_TEST_HOME || os.homedir();
     },
     data,
     bin: path.join(data, "bin"),

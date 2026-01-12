@@ -1,60 +1,7 @@
 import { useState } from "react";
 import { Box, Text, useInput } from "ink";
-import { colors } from "@/theme";
-
-interface Provider {
-  displayName: string;
-  providerId: string;
-  models: string[];
-}
-
-const PROVIDERS: Provider[] = [
-  {
-    displayName: "OpenAI",
-    providerId: "openai",
-    models: ["gpt-5.2", "gpt-4.1"],
-  },
-  {
-    displayName: "Anthropic",
-    providerId: "anthropic",
-    models: ["claude-sonnet-4-5", "claude-opus-4-5"],
-  },
-  {
-    displayName: "Google",
-    providerId: "google",
-    models: ["gemini-3-flash-preview", "gemini-3-pro-preview"],
-  },
-  {
-    displayName: "Ollama",
-    providerId: "ollama",
-    models: [], // Populated dynamically from local Ollama API
-  },
-];
-
-export function getModelsForProvider(providerId: string): string[] {
-  const provider = PROVIDERS.find((p) => p.providerId === providerId);
-  return provider?.models ?? [];
-}
-
-export function getDefaultModelForProvider(
-  providerId: string,
-): string | undefined {
-  const models = getModelsForProvider(providerId);
-  return models[0];
-}
-
-export function getProviderIdForModel(modelId: string): string | undefined {
-  // For ollama models, they're prefixed with "ollama:"
-  if (modelId.startsWith("ollama:")) {
-    return "ollama";
-  }
-  for (const provider of PROVIDERS) {
-    if (provider.models.includes(modelId)) {
-      return provider.providerId;
-    }
-  }
-  return undefined;
-}
+import { colors } from "@/cli/theme";
+import { getProviders } from "@agenie/agent/models/index";
 
 interface ProviderSelectorProps {
   provider?: string;
@@ -65,6 +12,7 @@ export function ProviderSelector({
   provider,
   onSelect,
 }: ProviderSelectorProps) {
+  const PROVIDERS = getProviders();
   const [selectedIndex, setSelectedIndex] = useState(() => {
     if (provider) {
       const idx = PROVIDERS.findIndex((p) => p.providerId === provider);
@@ -86,7 +34,7 @@ export function ProviderSelector({
   });
 
   return (
-    <Box flexDirection="column" marginTop={1}>
+    <Box flexDirection="column">
       <Text color={colors.primary} bold>
         Select provider
       </Text>
@@ -147,6 +95,7 @@ export function ModelSelector({
     return 0;
   });
 
+  const PROVIDERS = getProviders();
   const provider = PROVIDERS.find((p) => p.providerId === providerId);
   const providerName = provider?.displayName ?? providerId;
 
@@ -166,7 +115,12 @@ export function ModelSelector({
 
   if (models.length === 0) {
     return (
-      <Box flexDirection="column" marginTop={1}>
+      <Box
+        flexDirection="column"
+        marginTop={1}
+        borderStyle="round"
+        borderColor={colors.muted}
+      >
         <Text color={colors.primary} bold>
           Select model for {providerName}
         </Text>
@@ -186,7 +140,12 @@ export function ModelSelector({
   }
 
   return (
-    <Box flexDirection="column" marginTop={1}>
+    <Box
+      flexDirection="column"
+      marginTop={1}
+      borderStyle="round"
+      borderColor={colors.muted}
+    >
       <Text color={colors.primary} bold>
         Select model for {providerName}
       </Text>
@@ -215,5 +174,3 @@ export function ModelSelector({
     </Box>
   );
 }
-
-export { PROVIDERS };

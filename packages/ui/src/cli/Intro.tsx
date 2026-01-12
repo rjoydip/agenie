@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 import BigText from "ink-big-text";
-import { colors, dimensions } from "@/theme";
+import { colors, dimensions } from "@/cli/theme";
 
 interface IntroProps {
   provider: string;
@@ -10,7 +10,7 @@ interface IntroProps {
 
 export function Intro({ model, terminal_width }: IntroProps) {
   const { introWidth } = dimensions;
-  const welcomeText = `Welcome to Orbit CLI`;
+  const welcomeText = `Welcome to Agenie CLI`;
   const padding = Math.floor((introWidth - welcomeText.length - 2) / 2);
 
   return (
@@ -21,7 +21,7 @@ export function Intro({ model, terminal_width }: IntroProps) {
     >
       <Box justifyContent="center" alignItems="center">
         <Text color={colors.primary} bold>
-          <BigText text="orbit" />
+          <BigText text="agenie" />
         </Text>
       </Box>
 

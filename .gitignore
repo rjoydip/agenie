@@ -44,14 +44,14 @@ yarn-error.log*
 *~
 .DS_Store
 
-# Orbit EXE
-orbit-cli.exe
+# Agenie Execuatable
+agenie-cli.*
 
-# Orbit context files (offloaded tool outputs)
-.orbit/cache/*
-.orbit/data/log/*
-.orbit/data/bin/*
-.orbit/config/*
-.orbit/context/*
-.orbit/state/*
-.orbit/settings.json
+# Agenie context files (offloaded tool outputs)
+.agenie/cache/*
+.agenie/data/log/*
+.agenie/data/bin/*
+.agenie/config/*
+.agenie/context/*
+.agenie/state/*
+.agenie/settings.json

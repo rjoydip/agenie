@@ -11,8 +11,15 @@ import {
   Output,
   FlexibleSchema,
 } from "ai";
+import { getDefaultModelForProvider, getProviders } from ".";
 
-export const DEFAULT_PROVIDER = "openai";
+const PROVIDERS = getProviders();
+
+const _defaultProvider = "openai";
+export const DEFAULT_PROVIDER =
+  getDefaultModelForProvider(_defaultProvider, PROVIDERS) !== undefined
+    ? _defaultProvider
+    : "openai";
 export const DEFAULT_MODEL = "gpt-5.2";
 
 export function getChatModel(modelName: string): LanguageModel {

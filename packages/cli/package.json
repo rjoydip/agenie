@@ -1,9 +1,9 @@
 {
-  "name": "@orbit/cli",
+  "name": "@agenie/cli",
   "version": "0.0.0",
-  "description": "Orbit - An autonomous AI agent CLI powered by LangChain",
+  "description": "CLI for Agenie",
   "bin": {
-    "orbit": "./src/index.tsx"
+    "agenie": "./src/index.tsx"
   },
   "type": "module",
   "main": "src/index.tsx",
@@ -16,9 +16,9 @@
     "dev": "bun --watch run src/index.tsx"
   },
   "dependencies": {
-    "@orbit/agent": "workspace:*",
-    "@orbit/ui": "workspace:*",
-    "@orbit/utils": "workspace:*",
+    "@agenie/agent": "workspace:*",
+    "@agenie/ui": "workspace:*",
+    "@agenie/utils": "workspace:*",
     "ink": "catalog:",
     "react": "catalog:",
     "zod": "catalog:"

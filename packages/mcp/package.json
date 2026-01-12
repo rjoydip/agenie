@@ -1,7 +1,7 @@
 {
-  "name": "@orbit/mcp",
+  "name": "@agenie/mcp",
   "version": "0.0.0",
-  "description": "Orbit MCP (Model Control Program)",
+  "description": "MCP utilities for Agenie",
   "type": "module",
   "main": "src/index.ts",
   "exports": {
@@ -13,7 +13,7 @@
     "dev": "bun --watch run src/index.ts"
   },
   "dependencies": {
-    "@orbit/utils": "workspace:*"
+    "@agenie/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:dev",

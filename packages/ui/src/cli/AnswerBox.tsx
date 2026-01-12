@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Text } from "ink";
-import { colors } from "@/theme";
+import { colors } from "@/cli/theme";
 
 interface AnswerBoxProps {
   stream?: AsyncGenerator<string>;

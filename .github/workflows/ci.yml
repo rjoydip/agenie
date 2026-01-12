@@ -1,4 +1,4 @@
-name: CI Orbit
+name: CI
 
 on:
   pull_request:
@@ -6,11 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-orbit:
+  check-agenie:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/orbit
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

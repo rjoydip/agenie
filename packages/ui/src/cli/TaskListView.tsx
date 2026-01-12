@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { Box, Text } from "ink";
 import InkSpinner from "ink-spinner";
-import { colors } from "@/theme";
-import type { Task, TaskStatus, ToolCallStatus } from "@orbit/agent/state";
+import { colors } from "@/cli/theme";
+import type { Task, TaskStatus, ToolCallStatus } from "@agenie/agent/state";
 
 // ============================================================================
 // Status Icon Component

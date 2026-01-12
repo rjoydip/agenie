@@ -1,4 +1,4 @@
-import { Log } from "@orbit/utils/log";
+import { Log } from "@agenie/utils/log";
 
 const log = Log.create({ service: "mcp" });
 

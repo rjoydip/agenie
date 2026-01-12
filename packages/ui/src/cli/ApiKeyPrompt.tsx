@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Text, useInput } from "ink";
-import { colors } from "@/theme";
+import { colors } from "@/cli/theme";
 
 interface ApiKeyConfirmProps {
   providerName: string;

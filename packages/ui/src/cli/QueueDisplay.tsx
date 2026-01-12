@@ -1,5 +1,5 @@
 import { Box, Text } from "ink";
-import { colors } from "@/theme";
+import { colors } from "@/cli/theme";
 
 interface QueueDisplayProps {
   queries: string[];

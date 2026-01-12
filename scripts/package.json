@@ -1,7 +1,7 @@
 {
-  "name": "orbit-scripts",
+  "name": "@agenie/scripts",
   "version": "0.0.0",
-  "description": "Orbit scripts",
+  "description": "Scripts for building and managing the Agenie monorepo",
   "type": "module",
   "exports": {
     "./*": "./src/*.ts",
@@ -12,7 +12,7 @@
     "dev": "bun --watch run src/index.tsx"
   },
   "devDependencies": {
-    "@orbit/utils": "workspace:*",
+    "@agenie/utils": "workspace:*",
     "@types/bun": "catalog:dev",
     "typescript": "catalog:dev"
   }

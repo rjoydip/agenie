@@ -1,12 +1,10 @@
-# Orbit 🤖
+# Agenie 🤖
 
-Orbit is an autonomous agent that thinks, plans, and learns as it works. It performs analysis using task planning, self-reflection, and real-time data. Think OpenCode, but built specifically for build and host your own.
-
-<img width="979" height="651" alt="Screenshot 2025-10-14 at 6 12 35 PM" src="https://github.com/user-attachments/assets/5a2859d4-53cf-4638-998a-15cef3c98038" />
+Agenie is an autonomous agent that thinks, plans, and learns as it works. It performs analysis using task planning, self-reflection, and real-time data. Think OpenCode, but built specifically for build and host your own.
 
 ## Overview
 
-Orbit takes complex questions and turns them into clear, step-by-step plans. It runs those tasks using data, checks its own work, and refines the results until it has a confident, data-backed answer.
+Agenie takes complex questions and turns them into clear, step-by-step plans. It runs those tasks using data, checks its own work, and refines the results until it has a confident, data-backed answer.
 
 **Key Capabilities:**
 
@@ -16,8 +14,6 @@ Orbit takes complex questions and turns them into clear, step-by-step plans. It 
 - **Safety Features**: Built-in loop detection and step limits to prevent runaway execution
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/rjoydip11?style=social)](https://twitter.com/rjoydip11)
-
-<img width="996" height="639" alt="Screenshot 2025-11-22 at 1 45 07 PM" src="https://github.com/user-attachments/assets/8915fd70-82c9-4775-bdf9-78d5baf28a8a" />
 
 ### Prerequisites
 
@@ -46,13 +42,13 @@ After installation, restart your terminal and verify Bun is installed:
 bun --version
 ```
 
-### Installing Orbit
+### Installing Agenie
 
 - Clone the repository:
 
 ```bash
-git clone https://github.com/rjoydip/orbit-agent.git
-cd orbit-agent
+git clone https://github.com/rjoydip/agenie.git
+cd agenie
 ```
 
 - Install dependencies with Bun:
@@ -72,20 +68,11 @@ cp env.example .env
 OPENAI_API_KEY=your-api-key
 ANTHROPIC_API_KEY=your-api-key
 GOOGLE_API_KEY=your-api-key
-
-# Ollama (Local LLM)
-OLLAMA_BASE_URL=http://127.0.0.1:11434
-
-# LangSmith
-LANGSMITH_API_KEY=your-api-key
-LANGSMITH_ENDPOINT=https://api.smith.langchain.com
-LANGSMITH_PROJECT=agent-cli-template
-LANGSMITH_TRACING=true
 ```
 
 ### Usage
 
-Run Orbit in interactive mode:
+Run Agenie in iAgenienteractive mode:
 
 ```bash
 bun start:cli
@@ -99,11 +86,11 @@ bun dev:cli
 
 ### Example Queries
 
-Try asking Orbit questions like:
+Try asking Agenie questions like:
 
 TODO
 
-**Orbit will automatically:**
+**Agenie will automatically:**
 
 1. Break down your question into tasks
 2. Fetch the necessary data
@@ -112,7 +99,7 @@ TODO
 
 ## Architecture
 
-Orbit uses a multi-agent architecture with specialized components:
+Agenie uses a multi-agent architecture with specialized components:
 
 - **Planning Agent**: Analyzes queries and creates structured task lists
 - **Action Agent**: Selects appropriate tools and executes steps
