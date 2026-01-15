@@ -56,10 +56,12 @@ export class ToolContextManager {
     args: Record<string, unknown>,
   ): string {
     const argsHash = this.hashArgs(args);
-    const ticker =
-      typeof args.ticker === "string" ? args.ticker.toUpperCase() : null;
-    return ticker
-      ? `${ticker}_${toolName}_${argsHash}.json`
+    const identifier =
+      typeof args.identifier === "string"
+        ? args.identifier.toUpperCase()
+        : null;
+    return identifier
+      ? `${identifier}_${toolName}_${argsHash}.json`
       : `${toolName}_${argsHash}.json`;
   }
 
@@ -71,10 +73,10 @@ export class ToolContextManager {
     const parts: string[] = [];
     const usedKeys = new Set<string>();
 
-    // Add ticker if present (most common identifier)
-    if (args.ticker) {
-      parts.push(String(args.ticker).toUpperCase());
-      usedKeys.add("ticker");
+    // Add identifier if present (most common identifier)
+    if (args.identifier) {
+      parts.push(String(args.identifier).toUpperCase());
+      usedKeys.add("identifier");
     }
 
     // Add search query if present
@@ -90,15 +92,15 @@ export class ToolContextManager {
       .replace(/_/g, " ");
     parts.push(formattedToolName);
 
-    // Add period qualifier if present
-    if (args.period) {
-      parts.push(`(${args.period})`);
-      usedKeys.add("period");
+    // Add date qualifier if present
+    if (args.date) {
+      parts.push(`(${args.date})`);
+      usedKeys.add("date");
     }
 
     // Add limit if present
     if (args.limit && typeof args.limit === "number") {
-      parts.push(`- ${args.limit} periods`);
+      parts.push(`- ${args.limit} dates`);
       usedKeys.add("limit");
     }
 

@@ -42,8 +42,8 @@ interface ToolCallRowProps {
 }
 
 function formatArgs(args: Record<string, unknown>): string {
-  if (Object.keys(args).length === 1 && args.ticker) {
-    return String(args.ticker);
+  if (Object.keys(args).length === 1 && args.identifier) {
+    return String(args.identifier);
   }
   return Object.entries(args)
     .map(([k, v]) => `${k}=${v}`)

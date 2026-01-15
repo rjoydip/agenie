@@ -80,15 +80,19 @@ export class ToolExecutor {
     task: Task,
     understanding: Understanding,
   ): Promise<ToolCalls[]> {
-    const tickers = understanding.entities
-      .filter((e) => e.type === "ticker")
+    const identifiers = understanding.identifiers
+      .filter((e) => e.type === "identifiers")
       .map((e) => e.value);
 
-    const periods = understanding.entities
-      .filter((e) => e.type === "period")
+    const date = understanding.identifiers
+      .filter((e) => e.type === "date")
       .map((e) => e.value);
 
-    const prompt = buildToolSelectionPrompt(task.description, tickers, periods);
+    const prompt = buildToolSelectionPrompt(
+      task.description,
+      identifiers,
+      date,
+    );
     const systemPrompt = getToolSelectionSystemPrompt(
       this.formatToolDescriptions(),
     );

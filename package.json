@@ -3,7 +3,7 @@
   "name": "agenie",
   "version": "0.0.0",
   "private": true,
-  "description": "Agenie - An autonomous AI agent template built with AI-SDK",
+  "description": "Agenie - An autonomous research agent with task planning, self-reflection, and multi-provider AI support built with AI-SDK",
   "workspaces": {
     "packages": [
       "packages/*",

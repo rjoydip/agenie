@@ -8,9 +8,7 @@ import { z } from "zod";
  * Schema for entity extraction.
  */
 export const EntitySchema = z.object({
-  type: z
-    .enum(["ticker", "date", "metric", "company", "period", "other"])
-    .describe("The type of entity"),
+  type: z.enum(["identifiers", "date", "other"]).describe("The type of entity"),
   value: z.string().describe("The raw value from the query"),
 });
 

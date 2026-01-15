@@ -56,14 +56,14 @@ export class UnderstandPhase {
 
     const result = response as {
       intent: string;
-      entities: Array<{ type: string; value: string }>;
+      identifiers: Array<{ type: string; value: string }>;
     };
 
     // Map to our Understanding type
     return {
       intent: result.intent,
-      entities: result.entities.map((e) => ({
-        type: e.type as Understanding["entities"][0]["type"],
+      identifiers: result.identifiers.map((e) => ({
+        type: e.type as Understanding["identifiers"][0]["type"],
         value: e.value,
       })),
     };

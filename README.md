@@ -1,6 +1,8 @@
 # Agenie 🤖
 
-Agenie is an autonomous agent that thinks, plans, and learns as it works. It performs analysis using task planning, self-reflection, and real-time data. Think OpenCode, but built specifically for build and host your own.
+An autonomous research agent with task planning, self-reflection, and multi-provider AI support built with AI-SDK
+
+> 🚧 Work In Progress: This project is currently under active development. Current phase: Early development / Architecture design / Feature implementation
 
 ## Overview
 
@@ -62,12 +64,35 @@ bun install
 ```bash
 # Copy the example environment file (from parent directory)
 cp env.example .env
+```
 
+```bash
 # Edit .env and add your API keys (if using cloud providers)
-# LLM API Keys
-OPENAI_API_KEY=your-api-key
-ANTHROPIC_API_KEY=your-api-key
-GOOGLE_API_KEY=your-api-key
+# OpenAI
+OPENAI_API_KEY=sk-...
+
+# Anthropic
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Google Generative AI
+GOOGLE_GENERATIVE_AI_API_KEY=...
+# or
+GOOGLE_API_KEY=...
+
+# xAI
+XAI_API_KEY=...
+
+# Groq
+GROQ_API_KEY=...
+
+# DeepSeek
+DEEPSEEK_API_KEY=...
+
+# Mistral
+MISTRAL_API_KEY=...
+
+# Ollama (optional, uses local endpoint)
+OLLAMA_BASE_URL=http://localhost:11434/api
 ```
 
 ### Usage
@@ -110,7 +135,7 @@ Agenie uses a multi-agent architecture with specialized components:
 
 - **Runtime**: [Bun](https://bun.sh)
 - **UI Framework**: [React](https://react.dev) + [Ink](https://github.com/vadimdemedes/ink) (terminal UI)
-- **LLM Integration**: [LangChain.js](https://js.langchain.com) with multi-provider support (OpenAI, Anthropic, Google)
+- **LLM Integration**: [AI SDK](https://ai-sdk.dev/) with multi-provider support (OpenAI, Anthropic, Google)
 - **Schema Validation**: [Zod](https://zod.dev)
 - **Language**: TypeScript
 

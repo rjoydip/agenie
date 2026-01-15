@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+
 export {
   DEFAULT_MODEL,
   DEFAULT_PROVIDER,
@@ -13,29 +15,8 @@ interface Provider {
 }
 
 export function getProviders(): Provider[] {
-  const PROVIDERS = [
-    {
-      displayName: "OpenAI",
-      providerId: "openai",
-      models: ["gpt-5.2", "gpt-4.1"],
-    },
-    {
-      displayName: "Anthropic",
-      providerId: "anthropic",
-      models: ["claude-sonnet-4-5", "claude-opus-4-5"],
-    },
-    {
-      displayName: "Google",
-      providerId: "google",
-      models: ["gemini-3-flash-preview", "gemini-3-pro-preview"],
-    },
-    {
-      displayName: "Ollama",
-      providerId: "ollama",
-      models: [], // Populated dynamically from local Ollama API
-    },
-  ];
-  return PROVIDERS;
+  const providers = readFileSync("./models.json");
+  return JSON.parse(providers.toString()) as Provider[];
 }
 
 export function getModelsForProvider(
