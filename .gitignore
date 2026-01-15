@@ -43,9 +43,7 @@ yarn-error.log*
 *.swo
 *~
 .DS_Store
-
-# Agenie Execuatable
-agenie-cli.*
+.turbo
 
 # Agenie context files (offloaded tool outputs)
 .agenie/cache/*

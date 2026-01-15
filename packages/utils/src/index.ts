@@ -7,8 +7,6 @@ export {
   saveApiKeyToEnv,
   saveApiKeyForProvider,
 } from "./env";
-export { ToolContextManager } from "./context";
-export { MessageHistory } from "./message-history";
 
 export const delay = (ms: number, fn?: Function) =>
   new Promise((resolve) => {

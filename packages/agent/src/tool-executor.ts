@@ -1,11 +1,11 @@
-import { callLlm } from "@/models/llm";
-import { ToolContextManager } from "@agenie/utils/context";
+import { callLlm } from "./models/llm";
+import { ToolContextManager } from "@agenie/agent/tool-context";
 import {
   getToolSelectionSystemPrompt,
   buildToolSelectionPrompt,
 } from "./prompts";
 import type { Task, ToolCalls, Understanding } from "./state";
-import { ToolSet } from "../tools";
+import { ToolSet } from "./tools/index";
 
 interface AIMessage {
   content: {

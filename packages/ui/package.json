@@ -19,6 +19,7 @@
     "./cli/TaskListView": "./src/cli/TaskListView.tsx"
   },
   "scripts": {
+    "typecheck": "tsgo --noEmit",
     "start": "bun run src/index.ts",
     "dev": "bun --watch run src/index.ts"
   },

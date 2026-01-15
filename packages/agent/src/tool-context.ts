@@ -1,10 +1,10 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { createHash } from "crypto";
-import { callLlm, DEFAULT_MODEL } from "@agenie/agent/models/llm";
+import { callLlm, DEFAULT_MODEL } from "./models/llm";
 import { CONTEXT_SELECTION_SYSTEM_PROMPT } from "@agenie/agent/prompts";
 import { SelectedContextsSchema } from "@agenie/agent/schemas";
-import { CONTEXT_DIR } from "./config";
+import { CONTEXT_DIR } from "@agenie/utils/config";
 import type { ToolSummary } from "@agenie/agent/schemas";
 
 interface ContextPointer {

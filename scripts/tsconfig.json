@@ -11,12 +11,12 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./dist",
+    "outDir": "./",
     "rootDir": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"]
     }
   },
-  "include": ["./src/**/*"],
+  "include": ["./**/*"],
   "exclude": ["node_modules", "dist"]
 }

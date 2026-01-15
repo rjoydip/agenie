@@ -31,7 +31,7 @@ import {
   checkApiKeyExistsForProvider,
   saveApiKeyForProvider,
 } from "@agenie/utils/env";
-import { MessageHistory } from "@agenie/utils/message-history";
+import { MessageHistory } from "@agenie/agent/message-history";
 
 import { DEFAULT_PROVIDER } from "@agenie/agent/models/llm";
 import { colors } from "@agenie/ui/cli/theme";
@@ -40,7 +40,7 @@ import {
   getDefaultModelForProvider,
   getModelsForProvider,
   getProviders,
-} from "@agenie/agent/models";
+} from "@agenie/agent/models/index";
 
 // ============================================================================
 // Completed Turn Type and View
@@ -85,9 +85,9 @@ const DebugSection = React.memo(function DebugSection({
       </Text>
       {errors.map((err, i) => (
         <Box key={i} flexDirection="column" marginTop={i > 0 ? 1 : 0}>
-          <Text color="yellow">Tool: {err.toolName}</Text>
-          <Text color="cyan">Args: {formatArgs(err.args)}</Text>
-          <Text color="gray">Error: {err.error}</Text>
+          <Text color={colors.warning}>Tool: {err.toolName}</Text>
+          <Text color={colors.info}>Args: {formatArgs(err.args)}</Text>
+          <Text color={colors.error}>Error: {err.error}</Text>
         </Box>
       ))}
     </Box>

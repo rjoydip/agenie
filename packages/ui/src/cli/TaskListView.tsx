@@ -1,15 +1,15 @@
 import { memo } from "react";
 import { Box, Text } from "ink";
 import InkSpinner from "ink-spinner";
-import { colors } from "@/cli/theme";
-import type { Task, TaskStatus, ToolCallStatus } from "@agenie/agent/state";
+import { colors } from "./theme";
+import type { Task, TaskStatus, ToolCalls } from "@agenie/agent/state";
 
 // ============================================================================
 // Status Icon Component
 // ============================================================================
 
 interface StatusIconProps {
-  status: TaskStatus | ToolCallStatus["status"];
+  status: TaskStatus | ToolCalls["status"];
 }
 
 function StatusIcon({ status }: StatusIconProps) {
@@ -37,7 +37,7 @@ function StatusIcon({ status }: StatusIconProps) {
 // ============================================================================
 
 interface ToolCallRowProps {
-  toolCall: ToolCallStatus;
+  toolCall: ToolCalls;
   isLast: boolean;
 }
 
@@ -73,7 +73,7 @@ function ToolCallRow({ toolCall, isLast }: ToolCallRowProps) {
 // ============================================================================
 
 interface ToolCallsTreeProps {
-  toolCalls: ToolCallStatus[];
+  toolCalls: ToolCalls[];
 }
 
 function ToolCallsTree({ toolCalls }: ToolCallsTreeProps) {

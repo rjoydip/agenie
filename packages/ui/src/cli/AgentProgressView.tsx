@@ -1,25 +1,9 @@
 import React from "react";
 import { Box, Text } from "ink";
 import InkSpinner from "ink-spinner";
-import { colors } from "@/cli/theme";
+import { colors } from "./theme";
 import { TaskListView } from "./TaskListView";
-import type { Phase, Task } from "@agenie/agent/state";
-
-// ============================================================================
-// Types
-// ============================================================================
-
-/**
- * State for the agent progress view.
- */
-export interface AgentProgressState {
-  currentPhase: Phase;
-  understandComplete: boolean;
-  planComplete: boolean;
-  reflectComplete: boolean;
-  tasks: Task[];
-  isAnswering: boolean;
-}
+import { AgentProgressState } from "@agenie/agent/types";
 
 // ============================================================================
 // Status Icon Component
@@ -37,7 +21,7 @@ function StatusIcon({ complete, active, pending }: StatusIconProps) {
   }
   if (active) {
     return (
-      <Text color={colors.accent}>
+      <Text color={colors.warning}>
         <InkSpinner type="dots" />
       </Text>
     );
@@ -61,7 +45,7 @@ interface PhaseIndicatorProps {
 function PhaseIndicator({ label, complete, active }: PhaseIndicatorProps) {
   if (!complete && !active) return null;
 
-  const textColor = complete ? colors.muted : colors.primary;
+  const textColor = complete ? colors.muted : colors.indicator;
 
   return (
     <Box>

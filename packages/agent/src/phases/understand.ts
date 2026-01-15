@@ -1,10 +1,10 @@
-import { callLlm } from "@/models/llm";
-import { UnderstandingSchema } from "@/schemas";
+import { callLlm } from "../models/llm";
+import { UnderstandingSchema } from "../schemas";
 import {
   getUnderstandSystemPrompt,
   buildUnderstandUserPrompt,
-} from "@/prompts";
-import type { UnderstandInput, Understanding } from "@/state";
+} from "../prompts";
+import type { UnderstandInput, Understanding } from "../state";
 
 // ============================================================================
 // Understand Phase
