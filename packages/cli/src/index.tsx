@@ -39,8 +39,8 @@ import type { AppState } from "./types";
 import {
   getDefaultModelForProvider,
   getModelsForProvider,
-  getProviders,
 } from "@agenie/agent/models/index";
+import { PROVIDERS } from "@agenie/agent/models/providers";
 
 // ============================================================================
 // Completed Turn Type and View
@@ -139,7 +139,6 @@ const CompletedTurnView = React.memo(function CompletedTurnView({
 export function CLI() {
   const { exit } = useApp();
   const { stdout } = useStdout();
-  const PROVIDERS = getProviders();
 
   const [state, setState] = useState<AppState>("idle");
   const [provider, setProvider] = useState(() =>

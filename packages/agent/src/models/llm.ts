@@ -16,9 +16,8 @@ import {
   FlexibleSchema,
 } from "ai";
 import type { LanguageModel } from "ai";
-import { getDefaultModelForProvider, getProviders } from ".";
-
-const PROVIDERS = getProviders();
+import { getDefaultModelForProvider } from ".";
+import { PROVIDERS } from "./providers";
 
 const _defaultProvider = "openai";
 export const DEFAULT_PROVIDER =

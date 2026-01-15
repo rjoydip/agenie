@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { PROVIDERS } from "./providers";
 
 export {
   DEFAULT_MODEL,
@@ -12,11 +12,6 @@ interface Provider {
   displayName: string;
   providerId: string;
   models: string[];
-}
-
-export function getProviders(): Provider[] {
-  const providers = readFileSync("./models.json");
-  return JSON.parse(providers.toString()) as Provider[];
 }
 
 export function getModelsForProvider(
@@ -36,7 +31,6 @@ export function getDefaultModelForProvider(
 }
 
 export function getProviderIdForModel(modelId: string): string | undefined {
-  const PROVIDERS = getProviders();
   // For ollama models, they're prefixed with "ollama:"
   if (modelId.startsWith("ollama:")) {
     return "ollama";
