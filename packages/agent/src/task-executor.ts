@@ -1,6 +1,6 @@
-import { ToolContextManager } from "@agenie/utils/context";
+import { ToolContextManager } from "./tool-context";
 import { ToolExecutor, ToolExecutorCallbacks } from "./tool-executor";
-import { ExecutePhase } from "@/phases/execute";
+import { ExecutePhase } from "./phases/execute";
 import type {
   Task,
   TaskStatus,

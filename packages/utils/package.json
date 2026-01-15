@@ -8,18 +8,16 @@
     "./*": "./src/*.ts",
     ".": "./src/index.ts",
     "./config": "./src/config.ts",
-    "./context": "./src/context.ts",
     "./env": "./src/env.ts",
     "./global": "./src/global.ts",
-    "./log": "./src/log.ts",
-    "./message-history": "./src/message-history.ts"
+    "./log": "./src/log.ts"
   },
   "scripts": {
+    "typecheck": "tsgo --noEmit",
     "start": "bun run src/index.ts",
     "dev": "bun --watch run src/index.ts"
   },
   "dependencies": {
-    "@agenie/agent": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

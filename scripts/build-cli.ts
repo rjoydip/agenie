@@ -1,18 +1,26 @@
 import { $ } from "bun";
-import { Log } from "@agenie/utils/log";
+import { findUp } from "find-up";
 
-const log = Log.create({ service: "build-cli" });
+console.log("Building CLI Executable ...");
 
-log.info("Building CLI Executable ...");
-
-const outFileName = "agenie-cli";
-const buildFile = "packages/cli/src/index.tsx";
 const platform = process.platform;
 const arch = process.arch;
 
 const target_platforms = ["win32", "linux", "darwin"];
 
 async function build() {
+  const pkgDir = await findUp("packages", {
+    cwd: import.meta.dir,
+    type: "directory",
+  });
+  const agenieDir = await findUp(".agenie", {
+    cwd: import.meta.dir,
+    type: "directory",
+  });
+
+  const outFileName = `${agenieDir}/data/bin/agenie-cli`;
+
+  const buildFile = `${pkgDir}/cli/src/index.tsx`;
   if (!target_platforms.includes(platform)) {
     throw new Error(
       `Unsupported platform: ${platform}. Supported platforms are: ${target_platforms.join(
@@ -25,27 +33,27 @@ async function build() {
   if (platform === "win32") {
     const output =
       await $`bun build ${buildFile} --compile --target=bun-windows-${arch} --minify --outfile ${outFileName.concat(".exe")}`.text();
-    log.info(output);
+    console.log(output);
   }
 
   // Build the CLI executable for Linux x64
   if (platform === "linux") {
     const output =
       await $`bun build ${buildFile} --compile --target=bun-${platform}-${arch} --minify --outfile ${outFileName}`.text();
-    log.info(output);
+    console.log(output);
   }
 
   // Build the CLI executable for Darwin/MacOS x64
   if (platform === "darwin") {
     const output =
       await $`bun build ${buildFile} --compile --target=bun-${platform}-${arch} --minify --outfile ${outFileName}`.text();
-    log.info(output);
+    console.log(output);
   }
 
-  log.info("CLI Executable Built Successfully.");
+  console.log("CLI Executable Built Successfully.");
 }
 
 build().catch((err) => {
-  log.error(`Build failed: ${err}`);
+  console.error(`Build failed: ${err}`);
   process.exit(1);
 });

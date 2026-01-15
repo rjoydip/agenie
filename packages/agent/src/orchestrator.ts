@@ -1,11 +1,11 @@
-import { ToolContextManager } from "@agenie/utils/context";
-import { MessageHistory } from "@agenie/utils/message-history";
-import { toolSet } from "../tools/index";
-import { UnderstandPhase } from "../phases/understand";
-import { PlanPhase } from "../phases/plan";
-import { ExecutePhase } from "../phases/execute";
-import { ReflectPhase } from "../phases/reflect";
-import { AnswerPhase } from "../phases/answer";
+import { ToolContextManager } from "@agenie/agent/tool-context";
+import { MessageHistory } from "@agenie/agent/message-history";
+import { toolSet } from "./tools/index";
+import { UnderstandPhase } from "./phases/understand";
+import { PlanPhase } from "./phases/plan";
+import { ExecutePhase } from "./phases/execute";
+import { ReflectPhase } from "./phases/reflect";
+import { AnswerPhase } from "./phases/answer";
 import { ToolExecutor } from "./tool-executor";
 import { TaskExecutor, TaskExecutorCallbacks } from "./task-executor";
 import type {

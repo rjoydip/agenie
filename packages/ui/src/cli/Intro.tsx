@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 import BigText from "ink-big-text";
-import { colors, dimensions } from "@/cli/theme";
+import { colors, dimensions } from "./theme";
 
 interface IntroProps {
   provider: string;

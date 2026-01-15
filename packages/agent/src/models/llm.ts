@@ -1,4 +1,4 @@
-import { DEFAULT_SYSTEM_PROMPT } from "@/prompts";
+import { DEFAULT_SYSTEM_PROMPT } from "../prompts";
 import { openai } from "@ai-sdk/openai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { google } from "@ai-sdk/google";

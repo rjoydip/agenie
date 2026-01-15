@@ -1,7 +1,12 @@
-import { callLlm } from "@/models/llm";
-import { ReflectionSchema, type ReflectionOutput } from "@/schemas";
-import { getReflectSystemPrompt, buildReflectUserPrompt } from "@/prompts";
-import type { ReflectInput, ReflectionResult, Plan, TaskResult } from "@/state";
+import { callLlm } from "../models/llm";
+import { ReflectionSchema, type ReflectionOutput } from "../schemas";
+import { getReflectSystemPrompt, buildReflectUserPrompt } from "../prompts";
+import type {
+  ReflectInput,
+  ReflectionResult,
+  Plan,
+  TaskResult,
+} from "../state";
 
 // ============================================================================
 // Reflect Phase Options

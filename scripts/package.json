@@ -8,12 +8,12 @@
     "./build-cli": "./build-cli.ts"
   },
   "scripts": {
-    "start": "bun run src/index.tsx",
-    "dev": "bun --watch run src/index.tsx"
+    "build:cli": "bun run ./build-cli.ts"
   },
   "devDependencies": {
     "@agenie/utils": "workspace:*",
     "@types/bun": "catalog:dev",
+    "find-up": "8.0.0",
     "typescript": "catalog:dev"
   }
 }

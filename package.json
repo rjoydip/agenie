@@ -1,6 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "agenie",
   "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "bun@1.3.5",
   "description": "Agenie - An autonomous AI agent template built with AI-SDK",
   "workspaces": {
     "packages": [
@@ -24,25 +30,17 @@
   "type": "module",
   "scripts": {
     "prepare": "lefthook install",
-    "check": "oxfmt . && oxlint .",
+    "format": "oxfmt --write .",
+    "lint": "oxlint .",
+    "typecheck": "bun turbo typecheck",
     "start:cli": "bun run packages/cli/src/index.tsx",
-    "dev:cli": "bun --watch run packages/cli/src/index.tsx",
-    "test": "bun test",
-    "test:watch": "bun test --watch"
+    "dev:cli": "bun --watch run packages/cli/src/index.tsx"
   },
   "devDependencies": {
+    "@typescript/native-preview": "7.0.0-dev.20260112.1",
     "lefthook": "^2.0.13",
     "oxfmt": "^0.23.0",
-    "oxlint": "^1.38.0"
-  },
-  "lint-staged": {
-    "*": [
-      "bun check",
-      "bun test"
-    ]
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "packageManager": "bun@1.3.5"
+    "oxlint": "^1.38.0",
+    "turbo": "2.7.4"
+  }
 }

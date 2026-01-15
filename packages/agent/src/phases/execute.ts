@@ -1,6 +1,6 @@
-import { callLlm } from "@/models/llm";
-import { getExecuteSystemPrompt, buildExecuteUserPrompt } from "@/prompts";
-import type { ExecuteInput, TaskResult } from "@/state";
+import { callLlm } from "../models/llm";
+import { getExecuteSystemPrompt, buildExecuteUserPrompt } from "../prompts";
+import type { ExecuteInput, TaskResult } from "../state";
 
 // ============================================================================
 // Execute Phase (For Reason Tasks Only)

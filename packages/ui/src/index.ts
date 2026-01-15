@@ -7,4 +7,4 @@ export { QueueDisplay } from "./cli/QueueDisplay";
 export { StatusMessage } from "./cli/StatusMessage";
 export { AgentProgressView, CurrentTurnView } from "./cli/AgentProgressView";
 export { TaskListView } from "./cli/TaskListView";
-export type { AgentProgressState } from "./cli/AgentProgressView";
+export type { colors, dimensions } from "./cli/theme";

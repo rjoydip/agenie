@@ -43,13 +43,39 @@ export type {
 } from "./schemas";
 
 // Phases
-export { UnderstandPhase, PlanPhase, ExecutePhase } from "../phases/index";
+export { UnderstandPhase, PlanPhase, ExecutePhase } from "./phases/index";
 
 export type {
   UnderstandPhaseOptions,
   PlanPhaseOptions,
   ExecutePhaseOptions,
-} from "../phases/index";
+} from "./phases/index";
+
+// Tools
+export { searchTools, toolSet } from "./tools";
+export type { ToolSet, ToolResult } from "./tools";
+
+// Hooks
+export {
+  useAgentExecution,
+  ToolError,
+  CurrentTurn,
+  useQueryQueue,
+} from "./hooks";
+
+// Models
+export {
+  callLlm,
+  DEFAULT_MODEL,
+  DEFAULT_PROVIDER,
+  Provider,
+  callLlmStream,
+  getChatModel,
+  getDefaultModelForProvider,
+  getModelsForProvider,
+  getProviderIdForModel,
+  getProviders,
+} from "./models";
 
 // Prompts
 export {
