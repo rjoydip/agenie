@@ -3,10 +3,6 @@
   "name": "agenie",
   "version": "0.0.0",
   "private": true,
-  "engines": {
-    "node": ">=20"
-  },
-  "packageManager": "bun@1.3.5",
   "description": "Agenie - An autonomous AI agent template built with AI-SDK",
   "workspaces": {
     "packages": [
@@ -42,5 +38,9 @@
     "oxfmt": "^0.23.0",
     "oxlint": "^1.38.0",
     "turbo": "2.7.4"
-  }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "bun@1.3.5"
 }
