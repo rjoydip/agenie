@@ -1,3 +1,5 @@
+import { PROVIDERS } from "./providers";
+
 export {
   DEFAULT_MODEL,
   DEFAULT_PROVIDER,
@@ -10,32 +12,6 @@ interface Provider {
   displayName: string;
   providerId: string;
   models: string[];
-}
-
-export function getProviders(): Provider[] {
-  const PROVIDERS = [
-    {
-      displayName: "OpenAI",
-      providerId: "openai",
-      models: ["gpt-5.2", "gpt-4.1"],
-    },
-    {
-      displayName: "Anthropic",
-      providerId: "anthropic",
-      models: ["claude-sonnet-4-5", "claude-opus-4-5"],
-    },
-    {
-      displayName: "Google",
-      providerId: "google",
-      models: ["gemini-3-flash-preview", "gemini-3-pro-preview"],
-    },
-    {
-      displayName: "Ollama",
-      providerId: "ollama",
-      models: [], // Populated dynamically from local Ollama API
-    },
-  ];
-  return PROVIDERS;
 }
 
 export function getModelsForProvider(
@@ -55,7 +31,6 @@ export function getDefaultModelForProvider(
 }
 
 export function getProviderIdForModel(modelId: string): string | undefined {
-  const PROVIDERS = getProviders();
   // For ollama models, they're prefixed with "ollama:"
   if (modelId.startsWith("ollama:")) {
     return "ollama";

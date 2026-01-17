@@ -27,8 +27,8 @@ export class PlanPhase {
    */
   async run(input: PlanInput): Promise<Plan> {
     const entitiesStr =
-      input.understanding.entities.length > 0
-        ? input.understanding.entities
+      input.understanding.identifiers.length > 0
+        ? input.understanding.identifiers
             .map((e) => `${e.type}: ${e.value}`)
             .join(", ")
         : "None identified";

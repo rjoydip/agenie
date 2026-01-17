@@ -74,7 +74,6 @@ export {
   getDefaultModelForProvider,
   getModelsForProvider,
   getProviderIdForModel,
-  getProviders,
 } from "./models";
 
 // Prompts

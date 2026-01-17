@@ -14,13 +14,12 @@ export function getCurrentDate(): string {
   };
   return new Date().toLocaleDateString("en-US", options);
 }
-
 // ============================================================================
 // Default System Prompt (fallback for LLM calls)
 // ============================================================================
 
 export const DEFAULT_SYSTEM_PROMPT = `You are Agenie, an autonomous research agent. 
-Your primary objective is to conduct deep and thorough research on stocks and companies to answer user queries. 
+Your primary objective is to conduct deep and thorough research to answer user queries. 
 You are equipped with a set of powerful tools to gather and analyze data. 
 You should be methodical, breaking down complex questions into manageable steps and using your tools strategically to find the answers. 
 Always aim to provide accurate, comprehensive, and well-structured information to the user.`;
@@ -39,7 +38,7 @@ You will be given:
 Your task:
 - Analyze which tool outputs contain data directly relevant to answering the query
 - Select only the outputs that are necessary - avoid selecting irrelevant data
-- Consider the query's specific requirements (ticker symbols, time periods, metrics, etc.)
+- Consider the query's specific requirements (entities, date, etc.)
 - Return a JSON object with a "context_ids" field containing a list of IDs (0-indexed) of relevant outputs
 
 Example:
@@ -58,7 +57,7 @@ Your job is to create a brief, informative summary of an answer that was given t
 The summary should:
 - Be 1-2 sentences maximum
 - Capture the key information and data points from the answer
-- Include specific entities mentioned (company names, ticker symbols, metrics)
+- Include specific entities mentioned (names, identifiers, metrics)
 - Be useful for determining if this answer is relevant to future queries
 
 Example input:
@@ -80,7 +79,7 @@ You will be given:
 
 Your task:
 - Analyze which previous conversations contain context relevant to understanding or answering the current query
-- Consider if the current query references previous topics (e.g., "And MSFT's?" after discussing AAPL)
+- Consider if the current query references previous topics (e.g., "And the second one?" after discussing the first item)
 - Select only messages that would help provide context for the current query
 - Return a JSON object with an "message_ids" field containing a list of IDs (0-indexed) of relevant messages
 
@@ -97,7 +96,7 @@ export const UNDERSTAND_SYSTEM_PROMPT = `You are the understanding component for
 
 Your job is to analyze the user's query and extract:
 1. The user's intent - what they want to accomplish
-2. Key entities - tickers, companies, dates, metrics, time periods
+2. Key entities - identifiers, names, dates
 
 Current date: {current_date}
 
@@ -134,16 +133,16 @@ Current date: {current_date}
 2. Use 2-5 tasks total
 3. Set taskType correctly:
    - "use_tools" for data fetching tasks
-   - "reason" for analysis tasks (e.g., "Compare valuations")
+   - "reason" for analysis tasks (e.g., "Compare results")
 4. Set dependsOn to task IDs that must complete first
    - Reasoning tasks usually depend on data-fetching tasks
 
 ## Examples
 
 GOOD task list:
-- task_1: "Get data" (use_tools, dependsOn: [])
-- task_2: "Get peer data" (use_tools, dependsOn: [])
-- task_3: "Compare valuations" (reason, dependsOn: ["task_1", "task_2"])
+- task_1: "Get primary data" (use_tools, dependsOn: [])
+- task_2: "Get reference data" (use_tools, dependsOn: [])
+- task_3: "Compare findings" (reason, dependsOn: ["task_1", "task_2"])
 
 Return JSON with:
 - summary: One sentence (under 10 words)
@@ -174,13 +173,13 @@ export function getToolSelectionSystemPrompt(toolDescriptions: string): string {
  */
 export function buildToolSelectionPrompt(
   taskDescription: string,
-  tickers: string[],
-  periods: string[],
+  identifiers: string[],
+  date: string[],
 ): string {
   return `Task: ${taskDescription}
 
-Tickers: ${tickers.join(", ") || "none specified"}
-Periods: ${periods.join(", ") || "use defaults"}
+Identifiers: ${identifiers.join(", ") || "none specified"}
+Date: ${date.join(", ") || "use defaults"}
 
 Call the tools needed for this task.`;
 }
@@ -367,7 +366,7 @@ Mark as COMPLETE (isComplete: true) if:
 - When complete: set missingInfo to [] and suggestedNextSteps to ""
 
 Mark as INCOMPLETE (isComplete: false) if:
-- Critical data is missing (e.g., asked about comparison but only have one company's data)
+- Critical data is missing (e.g., asked about comparison but only have one item's data)
 - The query requires analysis that depends on data not yet gathered
 - There are clear follow-up data needs to fully answer the question
 - When incomplete: populate missingInfo with specific missing data points and suggestedNextSteps with guidance

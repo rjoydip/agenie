@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Text, useInput } from "ink";
 import { colors } from "./theme";
-import { getProviders } from "@agenie/agent/models/index";
+import { PROVIDERS } from "@agenie/agent/models/providers";
 
 interface ProviderSelectorProps {
   provider?: string;
@@ -12,7 +12,6 @@ export function ProviderSelector({
   provider,
   onSelect,
 }: ProviderSelectorProps) {
-  const PROVIDERS = getProviders();
   const [selectedIndex, setSelectedIndex] = useState(() => {
     if (provider) {
       const idx = PROVIDERS.findIndex((p) => p.providerId === provider);
@@ -95,7 +94,6 @@ export function ModelSelector({
     return 0;
   });
 
-  const PROVIDERS = getProviders();
   const provider = PROVIDERS.find((p) => p.providerId === providerId);
   const providerName = provider?.displayName ?? providerId;
 

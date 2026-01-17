@@ -43,9 +43,14 @@
   "dependencies": {
     "@agenie/utils": "workspace:*",
     "@ai-sdk/anthropic": "3.0.9",
+    "@ai-sdk/deepseek": "2.0.6",
     "@ai-sdk/google": "3.0.6",
+    "@ai-sdk/groq": "3.0.8",
+    "@ai-sdk/mistral": "3.0.7",
     "@ai-sdk/openai": "3.0.7",
+    "@ai-sdk/xai": "3.0.23",
     "ai": "6.0.27",
+    "ollama-ai-provider-v2": "2.0.0",
     "react": "catalog:",
     "zod": "catalog:"
   },
