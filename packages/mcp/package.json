@@ -28,6 +28,7 @@
     "mcp:inspect": "bunx @modelcontextprotocol/inspector bun dist/index.js"
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.9",
     "@modelcontextprotocol/sdk": "^1.25.2",
     "hono": "^4.11.4",
     "zod": "catalog:"
