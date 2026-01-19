@@ -1,5 +1,4 @@
 [install]
-exact = true
 linker = "isolated"
 
 [test]

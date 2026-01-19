@@ -2,14 +2,12 @@ import fs from "fs/promises";
 import path from "path";
 import os from "os";
 import { CACHE_DIR, CONFIG_DIR, DATA_DIR, STATE_DIR } from "./config";
-import { Log } from "./log";
+import { logger } from "./logger";
 
 const data = DATA_DIR;
 const cache = CACHE_DIR;
 const config = CONFIG_DIR;
 const state = STATE_DIR;
-
-const log = Log.create({ service: "global" });
 
 export namespace Global {
   export const Path = {
@@ -52,7 +50,7 @@ if (version !== CACHE_VERSION) {
       ),
     );
   } catch (e) {
-    log.error(`Failed to clear cache: ${e}`);
+    logger.error(`Failed to clear cache: ${e}`);
   }
 
   await Bun.file(path.join(Global.Path.cache, "version")).write(CACHE_VERSION);

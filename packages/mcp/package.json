@@ -3,21 +3,39 @@
   "version": "0.0.0",
   "description": "MCP utilities for Agenie",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "exports": {
     "./*": "./src/*.ts",
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./tools/*": "./src/tools/*.ts",
+    "./tools": "./src/tools/index.ts",
+    "./resources/*": "./src/resources/*.ts",
+    "./resources": "./src/resources/index.ts"
   },
   "scripts": {
     "typecheck": "tsgo --noEmit",
-    "start": "bun run src/index.ts",
-    "dev": "bun --watch run src/index.ts"
+    "start": "bun run dist/index.js",
+    "build": "RUNTIME_MODE=auto bun build src/index.ts --outdir dist --target bun --minify",
+    "build:stdio": "RUNTIME_MODE=stdio bun build src/index.ts --outdir dist --target bun --minify",
+    "dev": "bun run src/index.ts",
+    "dev:hot": "bun run --hot src/index.ts",
+    "dev:stdio:node": "cross-env RUNTIME_MODE=stdio tsx src/index.ts",
+    "dev:stdio:bun": "RUNTIME_MODE=stdio bun run src/index.ts",
+    "start:bun": "bun dist/index.js",
+    "wrangler:dev": "wrangler dev",
+    "wrangler:deploy": "wrangler deploy",
+    "mcp:inspect": "bunx @modelcontextprotocol/inspector bun dist/index.js"
   },
   "dependencies": {
-    "@agenie/utils": "workspace:*"
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "hono": "^4.11.4",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:dev",
+    "cross-env": "^10.1.0",
+    "tsx": "^4.21.0",
     "typescript": "catalog:dev"
   }
 }

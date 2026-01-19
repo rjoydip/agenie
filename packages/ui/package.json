@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "UI components for Agenie",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "exports": {
     "./cli/*": "./src/cli/*.tsx",
     "./cli": "./src/cli/index.ts",
@@ -21,13 +21,14 @@
   "scripts": {
     "typecheck": "tsgo --noEmit",
     "start": "bun run src/index.ts",
-    "dev": "bun --watch run src/index.ts"
+    "dev": "bun --watch run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun --minify"
   },
   "dependencies": {
     "@agenie/agent": "workspace:*",
     "@agenie/utils": "workspace:*",
     "ink": "catalog:",
-    "ink-big-text": "2.0.0",
+    "ink-big-text": "^2.0.0",
     "ink-spinner": "^5.0.0",
     "ink-text-input": "^6.0.0",
     "react": "catalog:"
@@ -35,7 +36,7 @@
   "devDependencies": {
     "@types/bun": "catalog:dev",
     "@types/react": "catalog:dev",
-    "react-devtools-core": "7.0.1",
+    "react-devtools-core": "^7.0.1",
     "typescript": "catalog:dev"
   }
 }

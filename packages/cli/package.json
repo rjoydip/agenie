@@ -3,18 +3,19 @@
   "version": "0.0.0",
   "description": "CLI for Agenie",
   "bin": {
-    "agenie": "./src/index.tsx"
+    "agenie": "dist/index.js"
   },
   "type": "module",
-  "main": "src/index.tsx",
+  "main": "dist/index.js",
   "exports": {
     "./*": "./src/*.tsx",
-    ".": "./src/index.ts"
+    ".": "./src/index.tsx"
   },
   "scripts": {
     "typecheck": "tsgo --noEmit",
     "start": "bun run src/index.tsx",
-    "dev": "bun --watch run src/index.tsx"
+    "dev": "bun --watch run src/index.tsx",
+    "build": "bun build src/index.tsx --outdir dist --target bun --minify"
   },
   "dependencies": {
     "@agenie/agent": "workspace:*",

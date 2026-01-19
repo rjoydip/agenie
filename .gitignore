@@ -1,7 +1,6 @@
 # Environment variables
 .env
 .env.local
-.env.*
 
 # Python
 __pycache__/
@@ -44,6 +43,7 @@ yarn-error.log*
 *~
 .DS_Store
 .turbo
+.wrangler/
 
 # Agenie context files (offloaded tool outputs)
 .agenie/cache/*

@@ -28,16 +28,17 @@
     "prepare": "lefthook install",
     "format": "oxfmt --write .",
     "lint": "oxlint .",
-    "typecheck": "bun turbo typecheck",
-    "start:cli": "bun run packages/cli/src/index.tsx",
+    "build": "bunx turbo build",
+    "typecheck": "bunx turbo typecheck",
+    "start:cli": "bun run packages/cli/dist/index.js",
     "dev:cli": "bun --watch run packages/cli/src/index.tsx"
   },
   "devDependencies": {
-    "@typescript/native-preview": "7.0.0-dev.20260112.1",
+    "@typescript/native-preview": "^7.0.0-dev.20260112.1",
     "lefthook": "^2.0.13",
     "oxfmt": "^0.23.0",
     "oxlint": "^1.38.0",
-    "turbo": "2.7.4"
+    "turbo": "^2.7.5"
   },
   "engines": {
     "node": ">=20"
