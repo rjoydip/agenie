@@ -3,19 +3,20 @@
   "version": "0.0.0",
   "description": "Utility functions for Agenie",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "exports": {
     "./*": "./src/*.ts",
     ".": "./src/index.ts",
     "./config": "./src/config.ts",
     "./env": "./src/env.ts",
     "./global": "./src/global.ts",
-    "./log": "./src/log.ts"
+    "./logger": "./src/logger.ts"
   },
   "scripts": {
     "typecheck": "tsgo --noEmit",
     "start": "bun run src/index.ts",
-    "dev": "bun --watch run src/index.ts"
+    "dev": "bun --watch run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun --minify"
   },
   "dependencies": {
     "zod": "catalog:"

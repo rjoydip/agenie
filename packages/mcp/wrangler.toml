@@ -1,0 +1,7 @@
+name = "agenie-mcp-server"
+main = "dist/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+MCP_PORT = "3000"
+RUNTIME_MODE = "http"

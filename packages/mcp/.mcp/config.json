@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "agenie": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "RUNTIME_MODE": "stdio"
+      }
+    },
+    "agenie-bun": {
+      "command": "bun",
+      "args": ["run", "src/index.ts"],
+      "env": {
+        "RUNTIME_MODE": "stdio"
+      }
+    }
+  }
+}
